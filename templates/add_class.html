@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>班级管理</title>
+</head>
+<body>
+<h3>增加班级信息</h3>
+<p>
+    班级：
+    <input id="class_name" type="text" placeholder="请输入班级名称" name="class_name"/><br><br>
+    <input id="cid" type="text" name="cid" value="{{ cid }}" />
+    <input id="submit-class" type="submit" value="提交" name="submit_class"/>
+</p>
+{#<script src="../static/js/class-js.js"></script>#}
+</body>
+</html>
+<script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+<script src="../static/js/class-js.js"></script>
+{#<script>#}
+{#    $(function (){#}
+{#        $('#submit-class').click(function(){#}
+{##}
+{#            var name = $('#class_name').val();#}
+{#            var cid = $('#cid').val();#}
+{#            console.log(name,cid);#}
+{##}
+{#            $.ajax({#}
+{#                url:'clas_add',#}
+{#                type:'post',#}
+{#                data:{'class_name':name,'cid':cid},#}
+{#                dataType:'JSON',#}
+{#                success:function(data){#}
+{#                    data = JSON.parse(ret)#}
+{#                    console.log(data)#}
+{#                    if (data['status']){#}
+{#                        location.href = '/class'#}
+{#                    }#}
+{#                    else {#}
+{#                        alert('失败了，请重试！')#}
+{#                    }#}
+{##}
+{#                }#}
+{#            })#}
+{#             })#}
+{#    });#}
+{#</script>#}

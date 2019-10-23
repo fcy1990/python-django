@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑学员</title>
+    <link rel='stylesheet' href="/static/plugin/bootstrap-3.3.7-dist/css/bootstrap.css"/>
+    <style>
+        .hide{
+            display: none;
+        }
+        .shadow{
+            position:fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            background-color: black;
+            opacity: 0.4;
+            z-index: 999;
+        }
+        .model{
+            position: fixed;
+            height: 300px;
+            width: 400px;
+            top: 50%;
+            left: 50%;
+            background-color: white;
+            z-index: 1000;
+            margin-left: -200px;
+            margin-top: -150px;
+        }
+    </style>
+</head>
+<body>
+<div id="shadow" class="shadow hide"></div>
+<div id="modal"  class="modal hide"></div>
+<div id="editModal" class="modal hide">
+<h3>编辑学生</h3>
+    <p>
+        学生姓名：
+        <input type="text" value="{{ result.s_name }}"/>
+    </p>
+    <select class="form-control" style="width: 180px; height: 35px;" name="cid">
+            {% for row in result %}
+            <option value="{{ row.name }}">{{ row.name }}</option>
+            {% endfor %}
+    </select>
+    <p>
+        <input value="提交" type="submit" id="submit"/>
+    </p>
+</div>
+</body>
+</html>
+<script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+<script>
+    $(function () {
+        $('#edit')
+    })
+</script>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加班级信息</title>
+    <link rel="stylesheet" href="/static/plugin/bootstrap-3.3.7-dist/css/bootstrap.css"/>
+</head>
+<body>
+<div class="form-group">
+    <h3>编辑班级</h3>
+    <form class="form-inline" method="post" action="add">
+        班级名称：
+        <input name="name" type="text"  placeholder="班级名称"/>
+        <input class="btn btn-primary" id="add_class" type="submit" value="提交"/>
+        <a>{{ errormessage }}</a>
+    </form>
+</div>
+</body>
+</html>

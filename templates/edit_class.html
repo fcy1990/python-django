@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>班级管理</title>
+</head>
+<body>
+<h3>编辑班级信息</h3>
+<select name="sel-cname" id="sel-cname">
+    {% for row in result %}
+    <option name="cname">{{ row.cname }}</option>
+    {% endfor %}
+</select>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>老师信息管理</title>
+</head>
+<body>
+<h3 style="align-content: center">老师信息管理</h3>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>老师姓名</th>
+        <th>任教班级</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for row in result %}
+    <tr>
+        <td>{{ row.tid }}</td>
+        <td>{{ row.tname }}</td>
+        <td>{{ row.tclass }}</td>
+        <td><a href="e-teacher?id={{ row.tid }}">编辑</a> |
+            <a href="d-teacher?id={{ row.tid }}">删除</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    <tr>
+        <td></td>
+    </tr>
+</table>
+</body>
+</html>

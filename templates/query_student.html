@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生管理</title>
+    <link rel='stylesheet' href="/static/plugin/font-awesome-4.7.0/css/font-awesome.css"/>
+    <link rel='stylesheet' href="/static/plugin/bootstrap-3.3.7-dist/css/bootstrap.css"/>
+
+    <style>
+        .hide{
+            display: none;
+        }
+        .shadow{
+            position:fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            background-color: black;
+            opacity: 0.4;
+            z-index: 999;
+        }
+        .add-modal{
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            height: 300px;
+            width: 400px;
+            z-index: 1000;
+            background-color: white;
+            margin-left: -200px;
+            margin-top: -150px;
+        }
+    </style>
+</head>
+<body>
+<div style="width: 500px;height: 300px; margin: auto;">
+<h3>学员管理</h3>
+<a class="btn btn-primary" href="a_stu">添加</a>
+<a id="addModal" class="btn btn-success glyphicon glyphicon-plus-sign">对话框添加</a>
+    <table class="table table-striped table-bordered table-hover" >
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>学生姓名</th>
+            <th>所属班级</th>
+            <th class="fa fa-ellipsis-v">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in result %}
+        <tr>
+            <td>{{ row.id }}</td>
+            <td>{{ row.s_name }}</td>
+            <td cls_id="{{ row.classID }}">{{ row.cid }}</td>
+            <td><a class="glyphicon glyphicon-edit" id="btn-edit">对话框编辑</a>|
+            <a class="fa fa-window-close" id="btn-del">删除</a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div id="shadow" class="shadow hide"></div>
+<div id="addModal" class="add-modal hide">
+<h3>添加学生</h3>
+    <p>
+        学生姓名：
+        <input id="add_stuname" name="sname" type="text" placeholder="学生姓名"/>
+    </p>
+    <p>
+       班级名称：
+    <select id="add_classname"  name="cname">
+            {% for row in res %}
+            <option value="{{ row.name }}">{{ row.name }}</option>
+            {% endfor %}
+    </select>
+    </p>
+    <p>
+        <input value="添加" type="button" id="btnadd"/>
+    </p>
+<p>
+    <span id="addError" style="color: red"></span>
+</p>
+</div>
+<div id="editModal" class="add-modal hide">
+<h3 class="navbar navbar-default">编辑学生信息</h3>
+    <p>
+        学生姓名：
+        <input class="form-control" type="text" id="edit_name" name="sname" value="{{ result.s_name }}" style="width: 100px;height: 30px; "/>
+        <input type="text" id="edit_id" name="sid" style="display: none" />
+    </p>
+    <p>
+       班级名称：
+    <select id="add_classId"  name="classId">
+            {% for row in res %}
+            <option value="{{ row.classID }}">{{ row.name }}</option>
+            {% endfor %}
+    </select>
+    </p>
+<p>
+        <input value="更新" type="button" id="btnupdate"/>
+    <span id="Errormessage" style="color: red"></span>
+    </p>
+</div>
+<div id="delModal" class="add-modal hide">
+    <h3 style="display: none">删除数据</h3>
+    <p style="display: none">
+    学生姓名：
+    <input id="studentId" style="display: none"  name="studentId" />
+</p>
+    <p>
+        <h3 style="align-content: center;">温馨提示</h3>
+        <span style="font-size: 20px">请确认，是否删除？</span><br><br>
+        <input type="button" id="yes" style="color: red" value="是"/>
+        <input type="button" id="no" value="否"/>
+    </p>
+</div>
+</body>
+</html>
+<script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+<script>
+    $(function () {
+        $('#addModal').click(function () {
+            $('#shadow,#addModal').removeClass('hide');
+        });
+        $('#btnadd').click(function () {
+            console.log('1211')
+            $.ajax({
+                url:'/modal',
+                type:'post',
+                data:{'sname':$('#add_stuname').val(),'cname':$('#add_classname').val()},
+                success:function (data) {
+                    data = JSON.parse(data);
+                    console.log(data);
+                    if (data.status){
+                        location.reload();
+                    }else {
+                        $('#addError').text(data.message)
+                    }
+                }
+
+            })
+        })
+    });
+
+        $('#btn-edit').click(function () {
+            $('#shadow,#editModal').removeClass('hide');
+            /*
+            获取当前数据信息$(this)
+             */
+            var tds = $(this).parent().prevAll();
+            var studentId = $(tds[2]).text();
+            var studentName = $(tds[1]).text();
+            var classId = $(tds[0]).attr('cls_id');
+            console.log(studentId,studentName,classId);
+            /*
+            赋值
+             */
+            $('#edit_id').val(studentId);
+            $('#edit_name').val(studentName);
+            $('#add_classId').val(classId);
+        });
+
+        $('#btnupdate').click(function () {
+
+            $.ajax({
+                url:'update',
+                type:'post',
+                data:{'sname':$('#edit_name').val(),'sid':$('#edit_id').val(),'classId':$('#add_classId').val()},
+                dataType:'JSON',//data = JSON.parse(data)
+                success:function (data) {
+                    /*
+                    data必须是字典类型的字符串
+                     */
+                    if(data.status){
+                        location.reload()
+                    }else {
+                        $('#Errormessage').text(data.message)
+                    }
+                }
+            })
+        })
+
+        $('#btn-del').click(function () {
+            $('#shadow,#delModal').removeClass('hide')
+            /*
+            获取当前数据
+             */
+            var tds = $(this).parent().prevAll();
+            var studentId = $(tds[2]).text();
+            console.log(studentId);
+            /*
+            赋值
+             */
+            $('#studentId').val(studentId);
+        });
+        $('#yes').click(function () {
+            /*
+            点击yes,删除数据
+             */
+            $.ajax({
+                url:'d_stu',
+                type:'post',
+                data:{'studentId':$('#studentId').val()},
+                dataType:'JSON',
+                success:function (data) {
+                    console.log(data);
+                    if(data.status){
+                        location.reload()
+                    }else {
+                        alert('请重试！')
+                    }
+                }
+            })
+        });
+        $('#no').click(function () {
+            /*
+            点击no,不删除数据，回到学员管理页面
+             */
+            location.reload()
+        })
+</script>
